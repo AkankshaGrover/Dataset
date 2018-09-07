@@ -1,0 +1,23 @@
+{
+  "name": "akanksha-dataset",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/mountblue/aug-b6-ja/akanksha-dataset.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "convert-csv-to-json": "0.0.13",
+    "csvtojson": "^2.0.8",
+    "express": "^4.16.3",
+    "highcharts": "^6.1.2",
+    "pug": "^2.0.3",
+    "requirejs": "^2.3.6"
+  }
+}
