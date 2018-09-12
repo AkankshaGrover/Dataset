@@ -1,65 +1,229 @@
-<!--<!DOCTYPE html>
-<html>
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <link rel="stylesheet" href="../client/noOfMatches.css">
-        <script src= "../client/noOfMatches.js"></script>
-    </head>
-    <body>
-        <div id="conatiner">
-        </div>
-    </body>
-</html>   -->
 
 <html>
 <head>
     <title>Highcharts Tutorial</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
-   <!-- <script type="text/javascript" src="../server/index.js"></script> -->
 </head>
-
 <body>
-    <div id="container" style="width: 550px; height: 400px; margin: 0 auto">
-
-    </div>
+    <button id="container">q1</button> 
+    <button id="container1">q2</button>
+    <button id="container2">q3</button>
+    <button id="container3">q4</button>
+    <button id="container4">q5</button>
     <script language="JavaScript">
         $(document).ready(function () {
+            $('#container').click(function(){
             fetch("http://localhost:3000").then((res) => res.json())
                 .then(function (map) {
+                    let yr = [];
+                    let matches =[]
+                    for (i in map) {
+                        yr[i] = Object.values(map)[i];
+                        matches[i] = Object.keys(map)[i];
+                    }
                     $('#container').highcharts({
                         chart: {
-                            type: "column"
+                            type: "line"
                         },
                         title: {
-                            text: "IPL data"
+                            text: "Number of matches played per year of all the years"
                             
-                        },
-                        
+                        },                       
                         xAxis: {
                             type: 'category',
                             allowDecimals: false,
                             title: {
-                                text: ""
+                                text: "Years"
                             },
-                            categories: Object.keys(map).map((key) => Number(key))
+                            categories: yr //Object.keys(map).map((key) => String(key))
                         },
                         yAxis: {
                             title: {
                                 text: "Matches played"
                             },
-                            categories: map
+                            categories: matches
                         },
                         series: [{
-                            name: 'Year',
-                            data: map
+                         //   name: Object.keys(map).map((key) => String(key)),
+                            data: Object.values(map).map((key) => Number(key))
                         }]
                     });
+                })
+                })
+                   
+             /*$('#container1').click(function () {
+             fetch("http://localhost:3000/matchesWon").then((res) => res.json())
+                  .then(function (obj) {        
+                      let set = {};
+                      Obj.forEach(a => {
+                          let temp = Object.values(Obj);
+                          if (temp[Object.values(a)] != undefined) {
+                              set[a.key] = temp[Object.value(a)];
+                          }
+                          else {
+                              // set[a.key] = temp[Object.value(a)];
+                              set[a.key] = temp[Object.value[a]];
+                          }
+                      })
 
-                });
-        })
+                      let seriesInput = {};
+                      let years = Object.keys(Obj);
+                      for (let i in years) {
+                          let wins = data[years[i]];
+                          let teams = Object.keys(wins);
+                          for (let j in teams) {
+                              if (seriesInput[years[j]]) {
+                                  seriesInput[teams[j]].push(wins[teams[j]]);
+                              }
+                              else {
+                                  
+                              }
+                          }
+                      }
+                    Highcharts.chart('#container1', {
+                        chart: {
+                            type: 'bar'
+                        },
+                        title: {
+                            text: 'Stacked bar chart'
+                        },
+                        xAxis: {
+
+                            categories:Object.keys(obj),
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Number of matches won'
+                            }
+                        },
+                        legend: {
+                            reversed: true
+                        },
+                        plotOptions: {
+                            series: {
+                                stacking: 'normal'
+                            }
+                        },
+                        series: {
+     
+                         },
+                    });
+
+                })
+            })*/
+
+             $('#container2').click(function () {    
+            fetch("http://localhost:3000/extraRuns").then((res) => res.json())
+                .then(function (map1) {
+                    $('#container2').highcharts({
+                        chart: {
+                            type: "column"
+                        },
+                        title: {
+                            text: "Extra runs conceeded per year"
+                            
+                        },                       
+                        xAxis: {
+                            type: 'category',
+                            allowDecimals: false,
+                            title: {
+                                text: "Teams"
+                            },
+                            categories: Object.keys(map1).map((key) => String(key))
+                        },
+                        yAxis: {
+                            title: {
+                                text: "Years"
+                            },
+                            categories: map1
+                        },
+                        series: [{
+                            name: Object.keys(map1).map((key)=>String(key)),
+                            data: Object.values(map1).map((key) => Number(key))
+                        }]
+                    });
+                })
+            })
+
+            $('#container3').click(function () {
+                fetch("http://localhost:3000/topBowlers").then((res) => res.json())
+                .then(function (map) {
+                    let names = [];
+                    let eco = [];
+                    for (let i in map)
+                    {
+                        names[i] = Object.values(map)[i].name;
+                        eco[i] = Object.values(map)[i].economy;
+                    }
+                    $('#container3').highcharts({
+                        
+                        chart: {
+                            type: "line"
+                        },
+                        title: {
+                            text: "Top Economical Bowlers of 2015"
+
+                        },
+                        xAxis: {
+                            type: 'category',
+                            allowDecimals: false,
+                            title: {
+                                text: "Names"
+                            },
+                            categories: names
+                        },
+                        yAxis: {
+                            title: {
+                                text: "Economy"
+                            },
+                            categories: eco
+                        },
+                        series: [{
+                           /// name: //Object.keys(map).map((key) => String(key)),
+                            data: eco//.map((key) => Number(key))
+                        }]
+                    });
+                })
+            })
+                $('#container4').click(function () {
+                fetch("http://localhost:3000/kingsXI").then((res) => res.json())
+                .then(function (map) {
+                    debugger;
+                    $('#container4').highcharts({
+                        
+                        chart: {
+                            type: "line"
+                        },
+                        title: {
+                            text: "Wins of Kings XI Punjab"
+
+                        },
+                        xAxis: {
+                            type: 'category',
+                            allowDecimals: false,
+                            title: {
+                                text: "Years"
+                            },
+                         categories: Object.keys(map).map((key) => String(key))
+                        },
+                        yAxis: {
+                            title: {
+                                text: "Wins"
+                            },
+                           // categories: Object.keys(map).map((key) => String(key))
+                        },
+                        series: [{
+                            
+                            data: Object.values(map).map((key) => Number(key)),
+                            // name: Object.keys(map).map((key) => String(key))
+                           
+                        }]
+                    });
+                })
+            })
+            })
     </script>
 </body>
-
 </html>
