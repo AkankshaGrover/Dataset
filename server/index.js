@@ -36,46 +36,46 @@ app.get('/', function (req, res) {
             });
         }
         res.json(map);
-        console.log(map);
+        //console.log(map);
         map = {};
     });
 
 });
+///////////Q2 
+app.get('/matchesWon', function(req, res){
+    res.header("Content-Type", "application/json");
+    fs.readFile('./matches.json', 'utf-8', function readFileCallback(err, data) {
+        if (err) 
+        {
+            console.log(err);
+        }
+        else {
+           // debugger;
+            let content = JSON.parse(data);
+            let Obj= {};
+          content.forEach(a=>{
+                if (Obj[a.season] != undefined)
+                   { 
+                    let temp = Obj[a.season];
+                       if(temp[a.winner]!=undefined)
+                        {
+                            temp[a.winner] += 1;
+                        }
+                     else
+                       {
+                            temp[a.winner] = 1;
+                       }
+                   }
+                else
+                    Obj[a.season] = {};
+            });  
+          //  console.log(Obj);   
+            res.json(Obj); 
 
-// app.get('/matchesWon', function(req, res){
-//     res.header("Content-Type", "application/json");
-//     fs.readFile('./matches.json', 'utf-8', function readFileCallback(err, data) {
-//         if (err) 
-//         {
-//             console.log(err);
-//         }
-//         else {
-//            // debugger;
-//             let content = JSON.parse(data);
-//             let Obj= {};
-//           content.forEach(a=>{
-//                 if (Obj[a.season] != undefined)
-//                    { 
-//                     let temp = Obj[a.season];
-//                        if(temp[a.winner]!=undefined)
-//                         {
-//                             temp[a.winner] += 1;
-//                         }
-//                      else
-//                        {
-//                             temp[a.winner] = 1;
-//                        }
-//                    }
-//                 else
-//                     Obj[a.season] = {};
-//             });  
-//             console.log(Obj);   
-//             res.json(Obj); 
-
-//         //    console.log(seriesInput);
-//         }
-//     })
-// })
+        //    console.log(seriesInput);
+        }
+    })
+})
 
 ///////////Q3- Extra Runs conceeded in year 2016
 app.get('/extraRuns', function (req, res) {

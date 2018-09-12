@@ -52,45 +52,52 @@
                 })
                 })
                    
-             /*$('#container1').click(function () {
+             $('#container1').click(function () {
              fetch("http://localhost:3000/matchesWon").then((res) => res.json())
-                  .then(function (obj) {        
-                      let set = {};
-                      Obj.forEach(a => {
-                          let temp = Object.values(Obj);
-                          if (temp[Object.values(a)] != undefined) {
-                              set[a.key] = temp[Object.value(a)];
-                          }
-                          else {
-                              // set[a.key] = temp[Object.value(a)];
-                              set[a.key] = temp[Object.value[a]];
-                          }
-                      })
-
-                      let seriesInput = {};
-                      let years = Object.keys(Obj);
-                      for (let i in years) {
-                          let wins = data[years[i]];
-                          let teams = Object.keys(wins);
-                          for (let j in teams) {
-                              if (seriesInput[years[j]]) {
-                                  seriesInput[teams[j]].push(wins[teams[j]]);
-                              }
-                              else {
-                                  
-                              }
-                          }
-                      }
-                    Highcharts.chart('#container1', {
+                  .then(function (obj) {  
+                      
+                    let set = new Set();
+                    let arr =[];
+                   
+                    let years = Object.keys(obj);
+                    let wins = Object.values(obj);
+                    for(let i of wins)
+                    {
+                        let arr = Object.keys(i);
+                        for(let name of arr)
+                        {
+                            set.add(name);
+                        }
+                    }
+                    
+                  //  debugger;
+                    let team = Array.from(set);
+                  //  debugger;
+                    for(let name of team)
+                    {
+                         let a = [];
+                        for(let item of wins)
+                        {
+                            if(item[name]!= undefined)
+                                a.push(item[name]);
+                            else
+                                a.push(0);
+                        }
+                        arr.push({"name":name, "data":a});
+                    }
+                    console.log(arr);
+                    $('#container1').highcharts({
                         chart: {
-                            type: 'bar'
+                            type: 'column'
                         },
                         title: {
+
                             text: 'Stacked bar chart'
                         },
                         xAxis: {
-
-                            categories:Object.keys(obj),
+                            type: "category",
+                            allowDecimals: false,
+                            categories:years
                         },
                         yAxis: {
                             min: 0,
@@ -106,13 +113,10 @@
                                 stacking: 'normal'
                             }
                         },
-                        series: {
-     
-                         },
+                        series: arr
                     });
-
                 })
-            })*/
+            })
 
              $('#container2').click(function () {    
             fetch("http://localhost:3000/extraRuns").then((res) => res.json())
