@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
 
 
 ////////////Q1
-app.get('/', function (req, res) {
+app.get('/allWins', function (req, res) {
 
     res.header("Content-Type", "application/json");
     fs.readFile('./matches.json', 'utf-8', function readFileCallback(err, data) {
@@ -37,9 +37,8 @@ app.get('/', function (req, res) {
         }
         res.json(map);
         //console.log(map);
-        map = {};
     });
-
+    map = {};
 });
 ///////////Q2 
 app.get('/matchesWon', function(req, res){
@@ -75,6 +74,7 @@ app.get('/matchesWon', function(req, res){
         //    console.log(seriesInput);
         }
     })
+    obj= {};
 })
 
 ///////////Q3- Extra Runs conceeded in year 2016
