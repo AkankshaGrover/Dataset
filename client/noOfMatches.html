@@ -1,4 +1,3 @@
-
 <html>
 <head>
     <title>Highcharts Tutorial</title>
@@ -6,15 +5,18 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
-    <button id="container">q1</button> 
-    <button id="container1">q2</button>
-    <button id="container2">q3</button>
-    <button id="container3">q4</button>
-    <button id="container4">q5</button>
+    <div>
+        <button id="container">q1</button> 
+        <button id="container1">q2</button>
+        <button id="container2">q3</button>
+        <button id="container3">q4</button>
+        <button id="container4">q5</button>
+    </div>
+    <div id="divContainer"></div>
     <script language="JavaScript">
         $(document).ready(function () {
             $('#container').click(function(){
-            fetch("http://localhost:3000").then((res) => res.json())
+            fetch("http://localhost:3000/allWins").then((res) => res.json())
                 .then(function (map) {
                     let yr = [];
                     let matches =[]
@@ -22,7 +24,7 @@
                         yr[i] = Object.values(map)[i];
                         matches[i] = Object.keys(map)[i];
                     }
-                    $('#container').highcharts({
+                    $('#divContainer').highcharts({
                         chart: {
                             type: "line"
                         },
@@ -86,7 +88,7 @@
                         arr.push({"name":name, "data":a});
                     }
                     console.log(arr);
-                    $('#container1').highcharts({
+                    $('#divContainer').highcharts({
                         chart: {
                             type: 'column'
                         },
@@ -121,13 +123,12 @@
              $('#container2').click(function () {    
             fetch("http://localhost:3000/extraRuns").then((res) => res.json())
                 .then(function (map1) {
-                    $('#container2').highcharts({
+                    $('#divContainer').highcharts({
                         chart: {
                             type: "column"
                         },
                         title: {
-                            text: "Extra runs conceeded per year"
-                            
+                            text: "Extra runs conceeded per year"    
                         },                       
                         xAxis: {
                             type: 'category',
@@ -161,7 +162,7 @@
                         names[i] = Object.values(map)[i].name;
                         eco[i] = Object.values(map)[i].economy;
                     }
-                    $('#container3').highcharts({
+                    $('#divContainer').highcharts({
                         
                         chart: {
                             type: "line"
@@ -195,7 +196,7 @@
                 fetch("http://localhost:3000/kingsXI").then((res) => res.json())
                 .then(function (map) {
                     debugger;
-                    $('#container4').highcharts({
+                    $('#divContainer').highcharts({
                         
                         chart: {
                             type: "line"
