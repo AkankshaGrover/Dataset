@@ -4,17 +4,22 @@
     <title>Highcharts Tutorial</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <link rel="stylesheet" href="./noOfMatches.css">
 </head>
 <body>
-    <button id="container">q1</button> 
-    <button id="container1">q2</button>
-    <button id="container2">q3</button>
-    <button id="container3">q4</button>
-    <button id="container4">q5</button>
+    <div class="buttons">
+        <button id="container5" class="btn">All Wins</button> 
+        <button id="container1" class="btn">Matches Won</button>
+        <button id="container2" class="btn">Extra Runs</button>
+        <button id="container3" class="btn">Top Bowlers</button>
+        <button id="container4" class="btn">Wins of kings XI</button>
+    </div> 
+    <div id ="container"> 
+    </div>
     <script language="JavaScript">
         $(document).ready(function () {
-            $('#container').click(function(){
-            fetch("http://localhost:3000").then((res) => res.json())
+            $('#container5').click(function(){
+            fetch("http://localhost:3000/allWins").then((res) => res.json())
                 .then(function (map) {
                     let yr = [];
                     let matches =[]
@@ -46,6 +51,7 @@
                         },
                         series: [{
                          //   name: Object.keys(map).map((key) => String(key)),
+                        // name : yr,
                             data: Object.values(map).map((key) => Number(key))
                         }]
                     });
@@ -86,7 +92,7 @@
                         arr.push({"name":name, "data":a});
                     }
                     console.log(arr);
-                    $('#container1').highcharts({
+                    $('#container').highcharts({
                         chart: {
                             type: 'column'
                         },
@@ -121,7 +127,7 @@
              $('#container2').click(function () {    
             fetch("http://localhost:3000/extraRuns").then((res) => res.json())
                 .then(function (map1) {
-                    $('#container2').highcharts({
+                    $('#container').highcharts({
                         chart: {
                             type: "column"
                         },
@@ -135,7 +141,7 @@
                             title: {
                                 text: "Teams"
                             },
-                            categories: Object.keys(map1).map((key) => String(key))
+                             categories: Object.keys(map1).map((key) => String(key))
                         },
                         yAxis: {
                             title: {
@@ -161,7 +167,7 @@
                         names[i] = Object.values(map)[i].name;
                         eco[i] = Object.values(map)[i].economy;
                     }
-                    $('#container3').highcharts({
+                    $('#container').highcharts({
                         
                         chart: {
                             type: "line"
@@ -195,7 +201,7 @@
                 fetch("http://localhost:3000/kingsXI").then((res) => res.json())
                 .then(function (map) {
                     debugger;
-                    $('#container4').highcharts({
+                    $('#container').highcharts({
                         
                         chart: {
                             type: "line"

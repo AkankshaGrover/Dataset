@@ -1,12 +1,14 @@
 const csv = require('csvtojson');
 const express = require('express');
 const fs = require('fs');
-app = express();
 let map = {};
 let result;
 let arr = [];
 let economy = [];
-var names = [];
+let names = [];
+let contentMatches;
+let contentDeliveries;
+app = express();
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -14,10 +16,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-
 ////////////Q1
 app.get('/allWins', function (req, res) {
-
     res.header("Content-Type", "application/json");
     fs.readFile('./matches.json', 'utf-8', function readFileCallback(err, data) {
         if (err) {
@@ -40,6 +40,8 @@ app.get('/allWins', function (req, res) {
     });
     map = {};
 });
+
+
 ///////////Q2 
 app.get('/matchesWon', function(req, res){
     res.header("Content-Type", "application/json");
@@ -92,17 +94,18 @@ app.get('/extraRuns', function (req, res) {
     })
 
     fs.readFile('./deliveries.json', 'utf-8', function readFileCallback(err, data) {
-
+        
         let content = JSON.parse(data);
         content.forEach(a => {
-            for (let i = 0; i < arr.length; i++) {
-                if (a.match_id == arr[i]) {
+            // for (let i = 0; i < arr.length; i++) {
+            //     if (a.match_id == arr[i]) {
+                if(arr.includes(a.match_id)){
                     if (map[a.bowling_team] != undefined)
                         map[a.bowling_team] += parseInt(a.extra_runs);
                     else
                         map[a.bowling_team] = 0;
                 }
-            }
+            // }
         });
         result = Object.keys(map).map(function (key) {
             return (Number(key), map[key]);
@@ -112,7 +115,6 @@ app.get('/extraRuns', function (req, res) {
         arr = [];
     });
 });
-
 
 //////////Q4-top economical bowlers of 2015
 app.get('/topBowlers', function (req, res) {
@@ -134,8 +136,9 @@ app.get('/topBowlers', function (req, res) {
         let content = JSON.parse(data);
         let over = 0;
         content.forEach(a => {
-            for (let i = 0; i < arr.length; i++) {
-                if (a.match_id == arr[i]) {
+             //for (let i = 0; i < arr.length; i++) {
+               //   if (a.match_id == arr[i]) {
+                if(arr.includes(a.match_id)){
                     if (map[a.bowler] != undefined) {
                         if (map[a.bowler]["overs"] != undefined && map[a.bowler]["runs"] != undefined) {
                             map[a.bowler]["runs"] += JSON.parse(a.total_runs);
@@ -157,7 +160,7 @@ app.get('/topBowlers', function (req, res) {
                     }
 
                 }
-            }
+            // }
             for (let j in map) {
                 map[j]["economy"] = (map)[j]["runs"] / (map)[j]["overs"];
             }
@@ -176,7 +179,7 @@ app.get('/topBowlers', function (req, res) {
         res.json(dataToBeSent);
     });
 
-    dataToBeSent = {}
+    dataToBeSent = [];
     map = {};
     arr = [];
 })
@@ -204,7 +207,28 @@ app.get('/kingsXI', function (req, res) {
     dataToBeSent = {};
 })
 
+var promise1 = new Promise(function (resolve, reject) {
+    fs.readFile('./matches.json', 'utf-8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        }
+        contentMatches = data;
+        resolve(contentMatches);
+    });
+});
 
-app.listen(3000);
+let promise2 = new Promise(function (resolve, reject) {
+    fs.readFile('./deliveries.json', 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+        }
+        contentDeliveries = data
+        resolve(contentDeliveries);
+    });
+});
+
+Promise.all([promise1, promise2]).then(function (values) {
+    app.listen(3000);
+})
 
 
