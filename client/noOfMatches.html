@@ -41,7 +41,7 @@
                             title: {
                                 text: "Years"
                             },
-                            categories: yr //Object.keys(map).map((key) => String(key))
+                            categories: Object.keys(map).map((key) => String(key))
                         },
                         yAxis: {
                             title: {
@@ -132,7 +132,7 @@
                             type: "column"
                         },
                         title: {
-                            text: "Extra runs conceeded per year"
+                            text: "Extra runs conceeded per team for year 2016"
                             
                         },                       
                         xAxis: {
@@ -145,12 +145,12 @@
                         },
                         yAxis: {
                             title: {
-                                text: "Years"
+                                text: "Runs"
                             },
                             categories: map1
                         },
                         series: [{
-                            name: Object.keys(map1).map((key)=>String(key)),
+                          //  name: Object.keys(map1).map((key)=>String(key)),
                             data: Object.values(map1).map((key) => Number(key))
                         }]
                     });
@@ -207,7 +207,7 @@
                             type: "line"
                         },
                         title: {
-                            text: "Wins of Kings XI Punjab"
+                            text: "Wins of Kings XI Punjab over all the years"
 
                         },
                         xAxis: {

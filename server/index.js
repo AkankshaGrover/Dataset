@@ -36,7 +36,7 @@ app.get('/allWins', function (req, res) {
             });
         }
         res.json(map);
-        //console.log(map);
+        console.log(map);
     });
     map = {};
 });
@@ -82,7 +82,7 @@ app.get('/matchesWon', function(req, res){
 ///////////Q3- Extra Runs conceeded in year 2016
 app.get('/extraRuns', function (req, res) {
     res.header("Content-Type", "application/json");
-
+    let map1 ={};
     fs.readFile('./matches.json', 'utf-8', function readFileCallback(err, data) {
 
         let content = JSON.parse(data);
@@ -94,24 +94,25 @@ app.get('/extraRuns', function (req, res) {
     })
 
     fs.readFile('./deliveries.json', 'utf-8', function readFileCallback(err, data) {
-        
+
         let content = JSON.parse(data);
         content.forEach(a => {
             // for (let i = 0; i < arr.length; i++) {
             //     if (a.match_id == arr[i]) {
                 if(arr.includes(a.match_id)){
-                    if (map[a.bowling_team] != undefined)
-                        map[a.bowling_team] += parseInt(a.extra_runs);
+                    if (map1[a.bowling_team] != undefined)
+                        map1[a.bowling_team] += parseInt(a.extra_runs);
                     else
-                        map[a.bowling_team] = 0;
+                        map1[a.bowling_team] = 0;
                 }
             // }
         });
-        result = Object.keys(map).map(function (key) {
-            return (Number(key), map[key]);
+        result = Object.keys(map1).map(function (key) {
+            return (Number(key), map1[key]);
         });
-        res.json(map);
-        map = {};
+        res.json(map1);
+        // console.log(map1);
+        map1 = {};
         arr = [];
     });
 });
