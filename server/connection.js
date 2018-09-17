@@ -16,6 +16,8 @@ app.use(function (req, res, next) {
 con.connect(function (err) {
     if (err) throw err; {
         console.log("Connected!");
+    }
+})
         ////q1
         app.get('/allWins', function (req, res) {
             var sql = "SELECT season AS year,count(id) AS matches FROM matches GROUP BY season;";
@@ -65,7 +67,6 @@ con.connect(function (err) {
                 res.json(result);
             });
         })
-    }
-})
+    
 
 app.listen(3000);
